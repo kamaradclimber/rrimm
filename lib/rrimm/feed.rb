@@ -14,7 +14,7 @@ module RRImm
 
     def format(feed, item)
       @formatter ||= @formatter_class.new
-      @formatter.format(feed, item)
+      @formatter.format(feed, item, self)
     end
 
     def category(arg=nil)

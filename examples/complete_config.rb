@@ -1,3 +1,5 @@
+default_formatter RRImm::ItemFormatter::Mail.new('me@example.com', 'rrimm@example.com')
+
 feed "http://planet.haskell.org/rss20.xml"
 feed "http://www.archlinux.org/feeds/news/"
 feed "http://alan.petitepomme.net/cwn/cwn.rss"

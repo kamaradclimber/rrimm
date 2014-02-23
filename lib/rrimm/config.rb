@@ -1,6 +1,7 @@
 module RRImm
   class Config
     attr :feeds, :cache
+    attr :default_formatter
 
     def initialize
       @feeds = {}
@@ -20,10 +21,12 @@ module RRImm
     def show
       puts "Cache: #{@cache.name}"
       puts "  path: #{@cache.path}" unless @cache.path.eql? @cache.name
+
+      puts "Default formatter: #{default_formatter}" if default_formatter
       
       puts "Feeds:"
       @feeds.values.group_by { |f| f.category }.map do |cat, feeds|
-        puts " #{cat}:" unless cat.nil? or cat.empty?
+        puts "#{cat}:" unless cat.nil? or cat.empty?
         feeds.each do |feed|
           fqdn = [feed.name]
           fqdn << feed.uri unless feed.name.eql? feed.uri
@@ -36,8 +39,16 @@ module RRImm
       #this allow to redefine feeds if necessary
       existing_feed = @feeds[feed_name]
       new_feed = (existing_feed || Feed.new(feed_name))
+      new_feed.formatter = default_formatter if default_formatter
       new_feed.instance_eval(&block) if block
       new_feed
+    end
+
+    def default_formatter(arg=nil)
+      if arg
+        @default_formatter = arg
+      end
+      @default_formatter
     end
 
     def feed(name, *args, &block)
