@@ -17,6 +17,21 @@ module RRImm
       @cache
     end
 
+    def show
+      puts "Cache: #{@cache.name}"
+      puts "  path: #{@cache.path}" unless @cache.path.eql? @cache.name
+      
+      puts "Feeds:"
+      @feeds.values.group_by { |f| f.category }.map do |cat, feeds|
+        puts " #{cat}:" unless cat.nil? or cat.empty?
+        feeds.each do |feed|
+          fqdn = [feed.name]
+          fqdn << feed.uri unless feed.name.eql? feed.uri
+          puts "- #{fqdn.join ': '}"
+        end
+      end
+    end
+
     def evaluate_feed_definition(feed_name, &block)
       #this allow to redefine feeds if necessary
       existing_feed = @feeds[feed_name]

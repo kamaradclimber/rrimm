@@ -6,8 +6,41 @@ rescue LoadError
   require 'rrimm'
 end
 
+require 'optparse'
+
+options = {
+  'action' => :sync,
+  'conf_file' => File.join(ENV['HOME'], '.config', 'rrimm', 'rrimm.rb')
+}
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: rrimm "
+  opts.on('-c', '--config [file]',
+          'configuration file used by rrimm') do |conf_file|
+    options['conf_file'] = conf_file
+  end
+
+  opts.on('-a', '--action [action]', [:sync, :show],
+          'Specify what to do: "sync" feeds, "show" config') do |action|
+    options['action'] = action
+  end
+
+  opts.on_tail("-h", "--help", "You know what it does") do
+    puts opts
+    exit
+  end
+end.parse!(ARGV)
+
+
+
 conf = RRImm::Config.new
-conf.load(File.join(ENV['HOME'], '.config', 'rrimm', 'rrimm.rb'))
+conf.load(options['conf_file'])
 
 fetcher = RRImm::Fetcher.new(conf)
-fetcher.fetch
+
+case options['action']
+when :sync
+  fetcher.fetch
+when :show
+  conf.show
+end
