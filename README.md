@@ -16,8 +16,6 @@ The original concept, this README and a lot of ideas are extracted from *imm*.
 
 Informations about versions, dependencies, source repositories and contacts can be found on rubygems.org_.
 
-*rrimm* is  
-
 
 Need & purpose
 --------------
@@ -34,6 +32,10 @@ The expected features of a feed reader could be defined as follows:
 
 Luckily, there's already a widespread solution that provides such features: mail readers.
 Considering that, *rrimm* aims at projecting the RSS/Atom paradigm onto the mail one; this way, all the existing tools that work on mails can be leveraged to work on RSS/Atom feeds as well, no wheel reinventing.
+
+Such need is already covered by *imm*, a tool written and maintained by k0ral.
+imm's code has grown and is now using powerful concepts for beauty sake. Its source code has lost its readability.
+*rrimm* intends to keep it (really) simple both in features and source code.
 
 
 Function
