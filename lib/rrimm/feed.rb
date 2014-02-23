@@ -12,6 +12,16 @@ module RRImm
       @formatter_class = RRImm::ItemFormatter::Default
     end
 
+    def cache_name
+      cleaned_name = RRImm::Cache::INVALID_PATTERNS.inject(@name) do |memo,pattern|
+        memo.gsub(pattern, '_')
+      end
+      RRImm::Cache::REMOVE_PATTERNS.inject(cleaned_name) do |memo,pattern|
+        memo.gsub(pattern, '')
+      end
+    end
+
+
     def format(feed, item)
       @formatter ||= @formatter_class.new
       @formatter.format(feed, item)

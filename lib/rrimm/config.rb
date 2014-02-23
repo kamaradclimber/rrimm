@@ -1,6 +1,6 @@
 module RRImm
   class Config
-    attr :feeds
+    attr :feeds, :cache
 
     def initialize
       @feeds = {}
@@ -25,6 +25,11 @@ module RRImm
 
     def load(file)
       instance_eval(File.read(file), file)
+    end
+
+    def cache(name, *args, &block)
+      @cache = Cache.new name
+      @cache.instance_eval(&block) if block
     end
 
   end
