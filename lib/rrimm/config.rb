@@ -4,6 +4,9 @@ module RRImm
 
     def initialize
       @feeds = {}
+      cache "default cache" do
+        path File.join(ENV['HOME'], '.cache', 'rrimm')
+      end
     end
 
     def feeds
@@ -30,6 +33,7 @@ module RRImm
     def cache(name, *args, &block)
       @cache = Cache.new name
       @cache.instance_eval(&block) if block
+      @cache
     end
 
   end

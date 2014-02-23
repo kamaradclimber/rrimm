@@ -6,4 +6,8 @@ rescue LoadError
   require 'rrimm'
 end
 
-RRImm::Fetcher.new(RRImm::Config.new).fetch
+conf = RRImm::Config.new
+conf.load(File.join(ENV['HOME'], '.config', 'rrimm', 'rrimm.rb'))
+
+fetcher = RRImm::Fetcher.new(conf)
+fetcher.fetch
