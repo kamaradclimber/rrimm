@@ -1,0 +1,9 @@
+#!/bin/env ruby
+
+begin
+  load 'lib/rrimm.rb'
+rescue LoadError
+  require 'rrimm'
+end
+
+RRImm::Fetcher.new(RRImm::Config.new).fetch
