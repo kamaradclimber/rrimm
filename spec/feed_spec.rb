@@ -10,13 +10,4 @@ describe RRImm::Feed do
     end
   end
 
-  describe '#cache_name' do
-    it 'cleans leading protocols' do
-      %w(http://example.org file://my_homy_feed).each do |f|
-        feed = RRImm::Feed.new f
-        expect(feed.cache_name).not_to include('http://')
-        expect(feed.cache_name).not_to include('file://')
-      end
-    end
-  end
 end

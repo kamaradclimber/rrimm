@@ -9,12 +9,14 @@ module RRImm
     ]
 
     INVALID_PATTERNS = [
-        /[&?=]/,
-        /\//,
+        /[^\w]/,
     ]
+
+    DEFAULT_TIMESTAMP = 1
 
     def initialize(name)
        @name = name
+       @path = name
     end
 
     def path(arg=nil)
@@ -24,5 +26,33 @@ module RRImm
       @path
     end
 
+    def cache_file(feed)
+      filename = sanitize(feed.uri)
+      File.join(path, filename)
+    end
+
+    def read(feed)
+      file_path = cache_file(feed)
+
+      return DEFAULT_TIMESTAMP unless File.exists?(file_path)
+      timestamp = File.read(file_path)
+      timestamp.to_i
+    end
+
+    def save(feed, timestamp)
+      file_path = cache_file(feed)
+      File.write(file_path, timestamp)
+    end
+
+
+    private
+    def sanitize(name)
+      cleaned_name = INVALID_PATTERNS.inject(name) do |memo,pattern|
+        memo.gsub(pattern, '_')
+      end
+      REMOVE_PATTERNS.inject(cleaned_name) do |memo,pattern|
+        memo.gsub(pattern, '')
+      end
+    end
   end
 end
