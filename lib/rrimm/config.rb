@@ -4,12 +4,6 @@ module RRImm
 
     def initialize
       @feeds = {}
-      feed "http://planet.haskell.org/rss20.xml"
-      feed "XKCD" do
-        uri "http://xkcd.com/rss.xml"
-        category "webcomics"
-      end
-
     end
 
     def feeds
@@ -27,6 +21,10 @@ module RRImm
     def feed(name, *args, &block)
       feed_def = evaluate_feed_definition(name, *args, &block)
       @feeds[name] = feed_def
+    end
+
+    def load(file)
+      instance_eval(File.read(file), file)
     end
 
   end
