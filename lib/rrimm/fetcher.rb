@@ -12,12 +12,16 @@ module RRImm
 
     def fetch
       @config.feeds.map do |name,feed_config|
+        last_read = Time.at(@config.get_cache.read(feed_config))
         open(feed_config.uri) do |rss|
           feed = RSS::Parser.parse(rss)
-          feed.items.each do |item|
+          items = feed.items.select { |item| item.date > last_read }
+          last_read = items.collect { |item| item.date }.max unless items.empty?
+          items.each do |item|
             feed_config.format(feed, item)
           end
         end
+        @config.get_cache.save(feed_config, last_read.to_i)
       end
     end
   end

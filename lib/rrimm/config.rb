@@ -13,6 +13,10 @@ module RRImm
       @feeds
     end
 
+    def get_cache
+      @cache
+    end
+
     def evaluate_feed_definition(feed_name, &block)
       #this allow to redefine feeds if necessary
       existing_feed = @feeds[feed_name]
