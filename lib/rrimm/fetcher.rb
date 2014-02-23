@@ -11,7 +11,7 @@ module RRImm
     end
 
     def fetch
-      @config.feeds.map do |feed_config|
+      @config.feeds.map do |name,feed_config|
         open(feed_config.uri) do |rss|
           feed = RSS::Parser.parse(rss)
           feed.items.each do |item|
