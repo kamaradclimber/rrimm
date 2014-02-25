@@ -1,5 +1,6 @@
 require 'rss'
 require 'open-uri'
+require 'open_uri_redirections'
 
 module RRImm
   class Fetcher
@@ -13,7 +14,7 @@ module RRImm
     def fetch
       @config.feeds.map do |name,feed_config|
         last_read = Time.at(@config.get_cache.read(feed_config))
-        open(feed_config.uri) do |rss|
+        open(feed_config.uri, :allow_redirections => :safe) do |rss|
           feed = RSS::Parser.parse(rss)
           items = feed.items.select { |item| item.date > last_read }
           last_read = items.collect { |item| item.date }.max unless items.empty?
