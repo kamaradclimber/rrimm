@@ -24,14 +24,14 @@ module RRImm
       end
 
       def format(feed, item, feed_config)
-        puts "#{feed.channel.title}: #{item.title} (#{item.date})"
+        puts "#{feed.title || feed.channel.title}: #{item.title} (#{item.date})"
         puts "From: #{from(item)}"
         puts "To: #{dest}"
         puts "Subject: #{subject(feed, item, feed_config)}"
         puts ""
         puts item.link
         puts ""
-        puts item.description
+        puts (item.description || item.content)
       end
     end
   end
