@@ -6,6 +6,8 @@ module RRImm
 
     REMOVE_PATTERNS = [
         /^.*:\/\/\/?/,
+        /^(http|ftp|file)s?___/,
+        /_+$/,
     ]
 
     INVALID_PATTERNS = [
