@@ -3,12 +3,14 @@ PATH
   specs:
     rrimm (0.1.0)
       open_uri_redirections
+      parallel
 
 GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.2.5)
     open_uri_redirections (0.1.4)
+    parallel (0.9.2)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
