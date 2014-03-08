@@ -2,6 +2,8 @@
 About rrimm
 =========
 
+[![Build Status](https://travis-ci.org/kamaradclimber/rrimm.png?branch=master)](https://travis-ci.org/kamaradclimber/rrimm)
+
 In a nutshell
 -------------
 
