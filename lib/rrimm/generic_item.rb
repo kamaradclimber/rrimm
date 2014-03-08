@@ -10,11 +10,8 @@ module RRImm
         @content = item.description
         @author = item.author
       when RSS::Atom::Feed::Entry
-        @date = item.date || item.updated.to_date
-        unless @date
-          puts item
-        end
-        @title = item.title
+        @date = item.date || item.updated.content
+        @title = item.title.content
         @link = item.link
         @content = item.content
         @author = item.author

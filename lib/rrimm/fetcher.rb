@@ -3,23 +3,6 @@ require 'open-uri'
 require 'open_uri_redirections'
 require 'parallel'
 
-module RSS
-  module Atom
-    class Feed
-      class Updated
-        def to_date
-          @content
-        end
-      end
-      class Title
-        def to_s
-          @content
-        end
-      end
-    end
-  end
-end
-
 module RRImm
   class Fetcher
 
