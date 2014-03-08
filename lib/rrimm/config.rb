@@ -1,13 +1,14 @@
 module RRImm
   class Config
     attr :feeds, :cache
-    attr :default_formatter
+    attr :default_formatter, :pipe
 
     def initialize
       @feeds = {}
       cache "default cache" do
         path File.join(ENV['HOME'], '.cache', 'rrimm')
       end
+      @pipe = "cat"
     end
 
     def feeds
@@ -40,6 +41,7 @@ module RRImm
       existing_feed = @feeds[feed_name]
       new_feed = (existing_feed || Feed.new(feed_name))
       new_feed.formatter = default_formatter if default_formatter
+      new_feed.pipe = pipe if pipe
       new_feed.instance_eval(&block) if block
       new_feed
     end
@@ -49,6 +51,13 @@ module RRImm
         @default_formatter = arg
       end
       @default_formatter
+    end
+
+    def pipe(arg=nil)
+      if arg
+        @pipe = arg
+      end
+      @pipe
     end
 
     def feed(name, *args, &block)

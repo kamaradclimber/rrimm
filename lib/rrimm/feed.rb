@@ -5,6 +5,7 @@ module RRImm
     attr_accessor :uri
     attr_accessor :formatter_class, :formatter
     attr_accessor :category
+    attr_accessor :pipe
 
     def initialize(name)
       @name = name
@@ -14,7 +15,12 @@ module RRImm
 
     def format(feed, item)
       @formatter ||= @formatter_class.new
-      @formatter.format(feed, item, self)
+      cmd = %Q<#{pipe}>
+      IO.popen(cmd,'w+') do |pipe|
+        @formatter.format(feed, item, self, pipe)
+        pipe.close_write
+        pipe.read.split("\n").each { |l| puts l }
+      end
     end
 
     def category(arg=nil)
@@ -36,6 +42,13 @@ module RRImm
         @formatter_class = arg
       end
       @formatter_class
+    end
+
+    def pipe(arg=nil)
+      if arg
+        @pipe = arg
+      end
+      @pipe
     end
 
   end
