@@ -24,14 +24,15 @@ module RRImm
       end
 
       def format(feed, item, feed_config, pipe)
-        pipe.write "#{feed.title}: #{item.title} (#{item.date})"
-        pipe.write "From: #{from(item)}"
-        pipe.write "To: #{dest}"
-        pipe.write "Subject: #{subject(feed, item, feed_config)}"
-        pipe.write ""
+        #pipe.write "#{feed.title}: #{item.title} (#{item.date})"
+        pipe.write "From: #{from(item)}\n"
+        pipe.write "To: #{dest}\n"
+        pipe.write "Subject: #{subject(feed, item, feed_config)}\n"
+        pipe.write "\n"
         pipe.write item.link
-        pipe.write ""
+        pipe.write "\n\n"
         pipe.write item.content if item.content
+        pipe.write "\n"
       end
     end
   end
