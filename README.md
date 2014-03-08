@@ -72,4 +72,4 @@ Getting started
 To get started, please fill the configuration file at ``~/.config/rrimm/rrimm.rb`` with your feeds list and settings. An example configuration file is provided with the package. Configuring *rrimm* requires virtually no knowledge of *Ruby* language.
 
 
-.. _rubygems: https://rubygems.org/rrimm
+.. _rubygems: https://rubygems.org/gems/rrimm
