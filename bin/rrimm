@@ -10,7 +10,8 @@ require 'optparse'
 
 options = {
   'action' => :sync,
-  'conf_file' => File.join(ENV['HOME'], '.config', 'rrimm', 'rrimm.rb')
+  'conf_file' => File.join(ENV['HOME'], '.config', 'rrimm', 'rrimm.rb'),
+  'concurrency' => 1,
 }
 
 OptionParser.new do |opts|
@@ -18,6 +19,11 @@ OptionParser.new do |opts|
   opts.on('-c', '--config [file]',
           'configuration file used by rrimm') do |conf_file|
     options['conf_file'] = conf_file
+  end
+
+  opts.on('-C', '--concurrency N',
+          'concurrency level to fetch feeds. Default 1') do |c|
+    options['concurrency'] = c.to_i
   end
 
   opts.on('-a', '--action [action]', [:sync, :show],
@@ -40,7 +46,7 @@ fetcher = RRImm::Fetcher.new(conf)
 
 case options['action']
 when :sync
-  fetcher.fetch
+  fetcher.parallel_fetch(options['concurrency'])
 when :show
   conf.show
 end
