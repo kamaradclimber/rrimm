@@ -1,6 +1,4 @@
-require 'rspec'
-require_relative '../lib/rrimm'
-
+require_relative 'spec_helper'
 require 'tmpdir'
 
 describe RRImm::Cache do

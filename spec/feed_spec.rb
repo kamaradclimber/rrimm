@@ -1,5 +1,4 @@
-require 'rspec'
-require_relative '../lib/rrimm'
+require_relative 'spec_helper'
 
 describe RRImm::Feed do
   describe "#new" do

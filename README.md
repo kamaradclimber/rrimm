@@ -3,6 +3,9 @@ About rrimm
 =========
 
 [![Build Status](https://travis-ci.org/kamaradclimber/rrimm.png?branch=master)](https://travis-ci.org/kamaradclimber/rrimm)
+[![Gem Version](https://badge.fury.io/rb/rrimm.png)](http://badge.fury.io/rb/rrimm)
+[![Dependency Status](https://gemnasium.com/kamaradclimber/rrimm.png)](https://gemnasium.com/kamaradclimber/rrimm)
+[![Coverage Status](https://coveralls.io/repos/kamaradclimber/rrimm/badge.png?branch=master)](https://coveralls.io/r/kamaradclimber/rrimm?branch=master)
 
 In a nutshell
 -------------
