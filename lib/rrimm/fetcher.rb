@@ -26,6 +26,7 @@ module RRImm
 
     def fetch_feed(name, feed_config)
       last_read = Time.at(@config.get_cache.read(feed_config))
+      puts name
       open(feed_config.uri, :allow_redirections => :safe) do |rss|
         feed = RSS::Parser.parse(rss)
         feed = GenericFeed.new feed
