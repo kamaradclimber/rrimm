@@ -11,6 +11,11 @@ module RSS
           @content
         end
       end
+      class Title
+        def to_s
+          @content
+        end
+      end
     end
   end
 end
