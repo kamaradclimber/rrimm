@@ -42,6 +42,11 @@ Such need is already covered by *imm*, a tool written and maintained by k0ral.
 imm's code has grown and is now using powerful concepts for beauty sake. Its source code has lost its readability.
 *rrimm* intends to keep it (really) simple both in features and source code.
 
+    Every program attempts to expand until it can read mail
+                                             Zawinski's Law
+
+rrimm tries to avoid going that dangerous road and simply outputs email to stdout (or pass it to any program via a shell pipe).
+
 
 Function
 --------
