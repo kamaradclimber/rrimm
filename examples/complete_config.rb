@@ -1,4 +1,9 @@
-default_formatter RRImm::ItemFormatter::Mail.new('me@example.com', 'rrimm@example.com')
+default_formatter RRImm::ItemFormatter::Mail.new(
+  from: 'rrimm@example.com',
+  to: 'me@me.com'
+)
+pipe "msmtp -t --read-envelope-from"
+#pipe "cat"
 
 feed "http://planet.haskell.org/rss20.xml"
 feed "http://www.archlinux.org/feeds/news/"

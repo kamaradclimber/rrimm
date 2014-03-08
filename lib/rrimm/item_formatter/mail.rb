@@ -4,9 +4,9 @@ module RRImm
 
       attr_accessor :dest, :sender
 
-      def initialize(dest, sender)
-        @dest = dest
-        @sender = sender
+      def initialize(hash)
+        @dest = hash[:to]
+        @sender = hash[:from]
       end
 
       def from(item)
@@ -24,10 +24,10 @@ module RRImm
       end
 
       def format(feed, item, feed_config, pipe)
-        #pipe.write "#{feed.title}: #{item.title} (#{item.date})"
         pipe.write "From: #{from(item)}\n"
         pipe.write "To: #{dest}\n"
         pipe.write "Subject: #{subject(feed, item, feed_config)}\n"
+        pipe.write "Content-Type: text/html;\n"
         pipe.write "\n"
         pipe.write item.link
         pipe.write "\n\n"
