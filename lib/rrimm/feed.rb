@@ -37,6 +37,10 @@ module RRImm
       @uri
     end
 
+    def default_name?
+      @name.eql? @uri
+    end
+
     def formatter_class(arg=nil)
       if arg
         @formatter_class = arg
