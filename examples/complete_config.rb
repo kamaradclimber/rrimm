@@ -1,6 +1,6 @@
 default_formatter RRImm::ItemFormatter::Mail.new(
   from: 'rrimm@example.com',
-  to: 'kamaradclimber@gmail.com'
+  to: 'me@me.com'
 )
 pipe "msmtp -t --read-envelope-from"
 #pipe "cat"
