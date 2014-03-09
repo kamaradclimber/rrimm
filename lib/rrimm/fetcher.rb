@@ -1,5 +1,4 @@
 require 'feedzirra'
-require 'rss'
 require 'open-uri'
 require 'open_uri_redirections'
 require 'parallel'
@@ -37,9 +36,8 @@ module RRImm
       last_read = Time.at(@config.get_cache.read(feed_config))
       puts name
       feed = Feedzirra::Feed.fetch_and_parse(feed_config.uri)
-      feed = GenericFeed.new feed
-      items = feed.items.select { |item| item.date > last_read }
-      last_read = items.collect { |item| item.date }.max unless items.empty?
+      items = feed.entries.select { |item| item.published > last_read }
+      last_read = items.collect { |item| item.published }.max unless items.empty?
       items.each do |item|
         feed_config.format(feed, item)
       end

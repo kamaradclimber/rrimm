@@ -29,9 +29,9 @@ module RRImm
         pipe.write "Subject: #{subject(feed, item, feed_config)}\n"
         pipe.write "Content-Type: text/html;\n"
         pipe.write "\n"
-        pipe.write item.link
+        pipe.write item.url
         pipe.write "\n\n"
-        pipe.write item.content if item.content
+        pipe.write (item.content || item.summary)
         pipe.write "\n"
       end
     end
