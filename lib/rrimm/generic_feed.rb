@@ -2,12 +2,8 @@ module RRImm
   class GenericFeed
     def initialize(feed)
       @underlying = feed
-      @items = feed.items.map {|item| GenericItem.new item }
-      case feed
-      when RSS::Rss
-        @title = feed.channel.title
-      when RSS::Atom
-      end
+      @title = feed.title
+      @items = feed.entries.map {|item| GenericItem.new item }
     end
 
     attr_accessor :underlying

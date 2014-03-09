@@ -2,25 +2,11 @@ module RRImm
   class GenericItem
     def initialize(item)
       @underlying = item
-      case item
-      when RSS::Rss::Channel::Item
-        @date = item.date
-        @title = item.title
-        @link = item.link
-        @content = item.description
-        @author = item.author
-      when RSS::Atom::Feed::Entry
-        @date = item.date || item.updated.content
-        @title = item.title.content
-        @link = item.link
-        @content = item.content
-        @author = item.author
-      else
-        puts item.class
-        fail "Please code this case !"
-        @updated_date = item.updated_date
-        @content = item.content
-      end
+      @date = item.published
+      @title = item.title
+      @link = item.url
+      @content = (item.content || item.summary)
+      @author = item.author
     end
 
     attr_accessor :underlying

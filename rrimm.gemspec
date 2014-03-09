@@ -15,4 +15,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'coveralls'
   s.add_dependency 'open_uri_redirections'
   s.add_dependency 'parallel'
+  s.add_dependency 'feedzirra'
 end
