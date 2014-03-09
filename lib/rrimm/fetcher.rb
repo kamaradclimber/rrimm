@@ -12,13 +12,21 @@ module RRImm
       @config = config
     end
 
+    def fetch(concurrency=nil)
+      if concurrency
+        parallel_fetch(concurrency)
+      else
+        linear_fetch
+      end
+    end
+
     def parallel_fetch(concurrency)
       Parallel.map(@config.feeds, :in_threads => concurrency) do |name,feed_config|
         fetch_feed(name, feed_config)
       end
     end
 
-    def fetch
+    def linear_fetch
       @config.feeds.map do |name,feed_config|
         fetch_feed(name, feed_config)
       end

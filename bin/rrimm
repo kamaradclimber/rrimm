@@ -11,7 +11,6 @@ require 'optparse'
 options = {
   'action' => :sync,
   'conf_file' => File.join(ENV['HOME'], '.config', 'rrimm', 'rrimm.rb'),
-  'concurrency' => 1,
 }
 
 OptionParser.new do |opts|
@@ -46,7 +45,7 @@ fetcher = RRImm::Fetcher.new(conf)
 
 case options['action']
 when :sync
-  fetcher.parallel_fetch(options['concurrency'])
+  fetcher.fetch(options['concurrency'])
 when :show
   conf.show
 end
