@@ -65,6 +65,17 @@ module RRImm
       @feeds[name] = feed_def
     end
 
+    def category(cat_name, &block)
+      old_feeds = @feeds.dup
+      @feeds = {}
+      self.instance_eval(&block) if block
+      @feeds.each do |_,f| f.category ||= cat_name end
+      new_feeds = @feeds.dup
+      @feeds = old_feeds
+      @feeds.merge!(new_feeds)
+    end
+
+
     def load(file)
       instance_eval(File.read(file), file)
     end
