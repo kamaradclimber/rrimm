@@ -65,6 +65,23 @@ module RRImm
       @feeds[name] = feed_def
     end
 
+    def category(cat_name, &block)
+      Feed.module_eval do
+        @@tmp_cat_name = cat_name
+        alias :old_initialize :initialize
+        def initialize(feed_name)
+          old_initialize(feed_name)
+          @category = @@tmp_cat_name
+        end
+      end
+      self.instance_eval(&block) if block
+    ensure
+      Feed.module_eval do
+        alias :initialize :old_initialize
+      end
+    end
+
+
     def load(file)
       instance_eval(File.read(file), file)
     end
