@@ -27,7 +27,11 @@ module RRImm
       
       puts "Feeds:"
       @feeds.values.group_by { |f| f.category }.map do |cat, feeds|
-        puts "#{cat}:" unless cat.nil? or cat.empty?
+        if cat.nil? or cat.empty?
+          puts ""
+        else
+          puts "#{cat}:"
+        end
         feeds.each do |feed|
           fqdn = [feed.name]
           fqdn << feed.uri unless feed.name.eql? feed.uri
