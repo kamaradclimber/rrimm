@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rrimm (0.2.0)
+    rrimm (0.3.0)
       feedzirra
       open_uri_redirections
       parallel
