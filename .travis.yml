@@ -1,7 +1,15 @@
 language: ruby
 rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1.0
-  - ruby-head
+- 1.9.3
+- 2.0.0
+- 2.1.0
+- ruby-head
 script: bundle exec rspec spec
+deploy:
+  provider: rubygems
+  api_key:
+    secure: Pyn7uwqx45RdSPLmQpPrfqpkcfJ7Dog1pRyVWKtd4h+ExbF8EReewJGjqCcEJImKVywAAG5k6bkP8UgMWSnBIg+nIuVefpndSlJyQgil5tlAGWwwarqKohrixhTn1M/UWiGBxd3Nn4Yvb+sCIWnCcqBeXMTFkDyfNm7U2qtXTxk=
+  gem: rrimm
+  on:
+    tags: true
+    repo: kamaradclimber/rrimm
