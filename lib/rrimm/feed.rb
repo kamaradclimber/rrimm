@@ -7,10 +7,11 @@ module RRImm
     attr_accessor :category
     attr_accessor :pipe
 
-    def initialize(name)
+    def initialize(name, &block)
       @name = name
       @uri = name
       @formatter_class = RRImm::ItemFormatter::Default
+      self.instance_eval(&block) if block
     end
 
     def format(feed, item)
