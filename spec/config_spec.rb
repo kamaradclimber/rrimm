@@ -9,13 +9,26 @@ describe RRImm::Config do
       expect(conf.feeds.size).to be 2
     end
 
+    it 'loads feeds properly with complex conf' do
+      conf = RRImm::Config.new
+      expect(conf.feeds.size).to be 0
+      conf.load(File.join(File.dirname(__FILE__), '..', 'examples', 'complete_config.rb'))
+      expect(conf.feeds.size).to be 6
+      expect(conf.feeds['SMBC'].category).to eq 'webcomics'
+      expect(conf.feeds['ocaml'].category).to eq 'languages'
+    end
+  end
+
+  describe 'show' do
     it 'displays config properly' do
       ios = StringIO.new
       conf = RRImm::Config.new
       expect{ conf.show(ios) }.not_to raise_error
       expect(ios.string).to include "default cache"
     end
+  end
 
+  describe 'status' do
     it 'prints status properly' do
       cache = double('cache')
       allow(cache).to receive(:read).and_return(1, 4, 7)
