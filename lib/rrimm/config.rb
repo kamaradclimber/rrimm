@@ -32,7 +32,7 @@ module RRImm
       @feeds.values.group_by { |f| f.category }.map do |cat, feeds|
         ios.write "#{cat || "unamed category"}:\n"
         feeds.each do |feed|
-          fqdn = [feed.name, feed.default_name? ? nil : feed.uri].compact
+          fqdn = [feed.name, feed.uri].uniq
           ios.write "- #{fqdn.join ': '}\n"
         end
       end
