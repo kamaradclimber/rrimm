@@ -11,9 +11,11 @@ Gem::Specification.new do |s|
   s.test_files  = `git ls-files -- spec/*`.split("\n")
   s.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
 
-  s.add_development_dependency 'rspec'
-  s.add_development_dependency 'coveralls'
   s.add_dependency 'open_uri_redirections'
   s.add_dependency 'parallel'
   s.add_dependency 'feedzirra'
+  s.add_dependency 'colorize'
+
+  s.add_development_dependency 'rspec'
+  s.add_development_dependency 'coveralls'
 end

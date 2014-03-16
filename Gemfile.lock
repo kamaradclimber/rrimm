@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     rrimm (0.3.0)
+      colorize
       feedzirra
       open_uri_redirections
       parallel
@@ -9,6 +10,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    colorize (0.7.0)
     coveralls (0.7.0)
       multi_json (~> 1.3)
       rest-client

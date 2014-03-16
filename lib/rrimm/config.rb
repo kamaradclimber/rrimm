@@ -1,3 +1,5 @@
+require 'colorize'
+
 module RRImm
   class Config
     attr :feeds, :cache
@@ -46,11 +48,11 @@ module RRImm
         f = el[1]
         case el.first
         when 0..very_old_timestamp
-          puts "#{Time.at(el.first)} #{f.name}"
+          puts "#{Time.at(el.first)} #{f.name}".colorize(:red)
         when very_old_timestamp..old_timestamp
-          puts "#{Time.at(el.first)} #{f.name}"
+          puts "#{Time.at(el.first)} #{f.name}".colorize(:yellow)
         else
-          puts "#{Time.at(el.first)} #{f.name}" unless display_old_only
+          puts "#{Time.at(el.first)} #{f.name}".colorize(:green) unless display_old_only
         end
       end
     end
