@@ -6,6 +6,7 @@ describe RRImm::Feed do
       f = RRImm::Feed.new 'a random feed'
       expect(f.name).to eq('a random feed')
       expect(f.uri).to eq('a random feed')
+      expect(f.default_name?).to be true
     end
 
     it 'calls the block if one is specifed' do
