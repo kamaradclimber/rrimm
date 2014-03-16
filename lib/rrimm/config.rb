@@ -39,9 +39,9 @@ module RRImm
     end
 
     def status(ios, old_timestamp, very_old_timestamp, display_old_only)
-      @feeds.values.map { |f| [ Time.at(get_cache.read(f)), f] }.sort_by { |el| el.first }each do |el|
+      @feeds.values.map { |f| [ Time.at(get_cache.read(f)), f] }.sort_by { |el| el.first }.each do |el|
         date, f = el
-        case timestamp
+        case date.to_i
         when 0..very_old_timestamp
           ios.write "#{date} #{f.name}\n".red
         when very_old_timestamp..old_timestamp
