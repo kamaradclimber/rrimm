@@ -30,30 +30,24 @@ module RRImm
       
       ios.write "Feeds:\n"
       @feeds.values.group_by { |f| f.category }.map do |cat, feeds|
-        if cat.nil? or cat.empty?
-          ios.write "\n"
-        else
-          ios.write "#{cat}:\n"
-        end
+        ios.write "#{cat || "unamed category"}:\n"
         feeds.each do |feed|
-          fqdn = [feed.name]
-          fqdn << feed.uri unless feed.name.eql? feed.uri
+          fqdn = [feed.name, feed.default_name? ? nil : feed.uri].compact
           ios.write "- #{fqdn.join ': '}\n"
         end
       end
     end
 
     def status(ios, old_timestamp, very_old_timestamp, display_old_only)
-      ordered_feeds = @feeds.values.map { |f| [get_cache.read(f), f] }.sort_by { |el| el.first }
-      ordered_feeds.each do |el|
-        f = el[1]
-        case el.first
+      @feeds.values.map { |f| [ Time.at(get_cache.read(f)), f] }.sort_by { |el| el.first }each do |el|
+        date, f = el
+        case timestamp
         when 0..very_old_timestamp
-          ios.write "#{Time.at(el.first)} #{f.name}\n".colorize(:red)
+          ios.write "#{date} #{f.name}\n".red
         when very_old_timestamp..old_timestamp
-          ios.write "#{Time.at(el.first)} #{f.name}\n".colorize(:yellow)
+          ios.write "#{date} #{f.name}\n".yellow
         else
-          ios.write "#{Time.at(el.first)} #{f.name}\n".colorize(:green) unless display_old_only
+          ios.write "#{date} #{f.name}\n".green unless display_old_only
         end
       end
     end
