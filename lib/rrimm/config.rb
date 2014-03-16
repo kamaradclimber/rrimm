@@ -40,6 +40,21 @@ module RRImm
       end
     end
 
+    def status(old_timestamp, very_old_timestamp, display_old_only)
+      ordered_feeds = @feeds.values.map { |f| [get_cache.read(f), f] }.sort_by { |el| el.first }
+      ordered_feeds.each do |el|
+        f = el[1]
+        case el.first
+        when 0..very_old_timestamp
+          puts "#{Time.at(el.first)} #{f.name}"
+        when very_old_timestamp..old_timestamp
+          puts "#{Time.at(el.first)} #{f.name}"
+        else
+          puts "#{Time.at(el.first)} #{f.name}" unless display_old_only
+        end
+      end
+    end
+
     def evaluate_feed_definition(feed_name, &block)
       #this allow to redefine feeds if necessary
       existing_feed = @feeds[feed_name]

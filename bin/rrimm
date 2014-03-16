@@ -25,8 +25,8 @@ OptionParser.new do |opts|
     options['concurrency'] = c.to_i
   end
 
-  opts.on('-a', '--action [action]', [:sync, :show],
-          'Specify what to do: "sync" feeds, "show" config') do |action|
+  opts.on('-a', '--action [action]', [:sync, :show, :status],
+          'Specify what to do: "sync" feeds, "show" config, display feed "status"') do |action|
     options['action'] = action
   end
 
@@ -48,4 +48,10 @@ when :sync
   fetcher.fetch(options['concurrency'])
 when :show
   conf.show
+when :status
+  one_month = 30 * 86400
+  one_month_ago = Time.now.to_i - one_month
+  six_months_ago = Time.now.to_i - 6 * one_month
+
+  conf.status(one_month_ago, six_months_ago, false)
 end
