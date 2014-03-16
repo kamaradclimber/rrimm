@@ -4,6 +4,7 @@ module RRImm
   class Config
     attr :feeds, :cache
     attr :default_formatter, :pipe
+    attr_accessor :output
 
     def initialize
       @feeds = {}
@@ -21,38 +22,38 @@ module RRImm
       @cache
     end
 
-    def show
-      puts "Cache: #{@cache.name}"
-      puts "  path: #{@cache.path}" unless @cache.path.eql? @cache.name
+    def show(ios)
+      ios.write "Cache: #{@cache.name}\n"
+      ios.write "  path: #{@cache.path}\n" unless @cache.path.eql? @cache.name
 
-      puts "Default formatter: #{default_formatter}" if default_formatter
+      ios.write "Default formatter: #{default_formatter}\n" if default_formatter
       
-      puts "Feeds:"
+      ios.write "Feeds:\n"
       @feeds.values.group_by { |f| f.category }.map do |cat, feeds|
         if cat.nil? or cat.empty?
-          puts ""
+          ios.write "\n"
         else
-          puts "#{cat}:"
+          ios.write "#{cat}:\n"
         end
         feeds.each do |feed|
           fqdn = [feed.name]
           fqdn << feed.uri unless feed.name.eql? feed.uri
-          puts "- #{fqdn.join ': '}"
+          ios.write "- #{fqdn.join ': '}\n"
         end
       end
     end
 
-    def status(old_timestamp, very_old_timestamp, display_old_only)
+    def status(ios, old_timestamp, very_old_timestamp, display_old_only)
       ordered_feeds = @feeds.values.map { |f| [get_cache.read(f), f] }.sort_by { |el| el.first }
       ordered_feeds.each do |el|
         f = el[1]
         case el.first
         when 0..very_old_timestamp
-          puts "#{Time.at(el.first)} #{f.name}".colorize(:red)
+          ios.write "#{Time.at(el.first)} #{f.name}\n".colorize(:red)
         when very_old_timestamp..old_timestamp
-          puts "#{Time.at(el.first)} #{f.name}".colorize(:yellow)
+          ios.write "#{Time.at(el.first)} #{f.name}\n".colorize(:yellow)
         else
-          puts "#{Time.at(el.first)} #{f.name}".colorize(:green) unless display_old_only
+          ios.write "#{Time.at(el.first)} #{f.name}\n".colorize(:green) unless display_old_only
         end
       end
     end

@@ -42,16 +42,17 @@ conf = RRImm::Config.new
 conf.load(options['conf_file'])
 
 fetcher = RRImm::Fetcher.new(conf)
+IO.open STDOUT.fileno do |ios|
+  case options['action']
+  when :sync
+    fetcher.fetch(options['concurrency'])
+  when :show
+    conf.show(ios)
+  when :status
+    one_month = 30 * 86400
+    one_month_ago = Time.now.to_i - one_month
+    six_months_ago = Time.now.to_i - 6 * one_month
 
-case options['action']
-when :sync
-  fetcher.fetch(options['concurrency'])
-when :show
-  conf.show
-when :status
-  one_month = 30 * 86400
-  one_month_ago = Time.now.to_i - one_month
-  six_months_ago = Time.now.to_i - 6 * one_month
-
-  conf.status(one_month_ago, six_months_ago, false)
+    conf.status(ios, one_month_ago, six_months_ago, false)
+  end
 end
