@@ -23,6 +23,7 @@ describe RRImm::Config do
     it 'displays config properly' do
       ios = StringIO.new
       conf = RRImm::Config.new
+      conf.load(File.join(File.dirname(__FILE__), '..', 'examples', 'complete_config.rb'))
       expect{ conf.show(ios) }.not_to raise_error
       expect(ios.string).to include "default cache"
     end
