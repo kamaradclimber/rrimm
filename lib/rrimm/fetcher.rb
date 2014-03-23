@@ -12,7 +12,8 @@ module RRImm
       @config = config
     end
 
-    def fetch(concurrency=nil)
+    def fetch(concurrency=nil, quiet=false)
+      @quiet ||= quiet
       if concurrency
         parallel_fetch(concurrency)
       else
@@ -34,7 +35,7 @@ module RRImm
 
     def fetch_feed(name, feed_config)
       last_read = Time.at(@config.get_cache.read(feed_config))
-      puts name
+      puts name unless @quiet
       feed = Feedzirra::Feed.fetch_and_parse(feed_config.uri)
       items = feed.entries.select { |item| item.published > last_read }
       last_read = items.collect { |item| item.published }.max unless items.empty?

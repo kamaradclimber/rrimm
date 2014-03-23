@@ -25,6 +25,11 @@ OptionParser.new do |opts|
     options['concurrency'] = c.to_i
   end
 
+  opts.on('-q', '--quiet',
+          'Activate quiet mode, will only print errors') do
+    options['quiet'] = true
+  end
+
   opts.on('-a', '--action [action]', [:sync, :show, :status],
           'Specify what to do: "sync" feeds, "show" config, display feed "status"') do |action|
     options['action'] = action
@@ -45,7 +50,7 @@ fetcher = RRImm::Fetcher.new(conf)
 IO.open STDOUT.fileno do |ios|
   case options['action']
   when :sync
-    fetcher.fetch(options['concurrency'])
+    fetcher.fetch(options['concurrency'], options['quiet'])
   when :show
     conf.show(ios)
   when :status
