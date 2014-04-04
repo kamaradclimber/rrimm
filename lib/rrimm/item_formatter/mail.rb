@@ -30,6 +30,7 @@ module RRImm
       def format(feed, item, feed_config, pipe)
         pipe.write "From: #{from [item.author, default_author(feed_config)]}\n"
         pipe.write "To: #{dest}\n"
+        pipe.write "Date: #{item.published.rfc2822}\n"
         pipe.write "Subject: #{subject(feed, item, feed_config)}\n"
         pipe.write "Content-Type: text/html;\n"
         pipe.write "\n"
