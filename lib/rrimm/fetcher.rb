@@ -42,7 +42,7 @@ module RRImm
       items.each do |item|
         feed_config.format(feed, item)
       end
-      @config.get_cache.save(feed_config, last_read.to_i)
+      @config.get_cache.save(feed_config, last_read.to_i, false)
     end
   end
 end

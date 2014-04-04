@@ -41,11 +41,10 @@ module RRImm
       timestamp.to_i
     end
 
-    def save(feed, timestamp)
+    def save(feed, timestamp, force=true)
       file_path = cache_file(feed)
-      File.write(file_path, timestamp)
+      File.write(file_path, timestamp) if (force or timestamp != read(feed))
     end
-
 
     private
     def sanitize(name)
