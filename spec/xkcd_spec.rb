@@ -8,7 +8,7 @@ describe RRImm::ItemFormatter::Mail do
       to: 'to@example.com'
     )
     xkcd_file = File.join('file://', File.dirname(__FILE__), 'xkcd.xml')
-    feed = Feedzirra::Feed.fetch_and_parse(xkcd_file)
+    feed = Feedjira::Feed.fetch_and_parse(xkcd_file)
     expect(feed.entries.size).to be > 0
     s = StringIO.new
     config = double('config')
@@ -27,7 +27,7 @@ describe RRImm::ItemFormatter::Default do
   it 'formats correctly xkcd feed' do
     default_formatter = RRImm::ItemFormatter::Default.new
     xkcd_file = File.join('file://', File.dirname(__FILE__), 'xkcd.xml')
-    feed = Feedzirra::Feed.fetch_and_parse(xkcd_file)
+    feed = Feedjira::Feed.fetch_and_parse(xkcd_file)
     expect(feed.entries.size).to be > 0
     s = StringIO.new
     default_formatter.format(feed, feed.entries.first, nil, s)

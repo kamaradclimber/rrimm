@@ -1,4 +1,4 @@
-require 'feedzirra'
+require 'feedjira'
 require 'open-uri'
 require 'open_uri_redirections'
 require 'parallel'
@@ -36,7 +36,7 @@ module RRImm
     def fetch_feed(name, feed_config)
       last_read = Time.at(@config.get_cache.read(feed_config))
       puts name unless @quiet
-      feed = Feedzirra::Feed.fetch_and_parse(feed_config.uri)
+      feed = Feedjira::Feed.fetch_and_parse(feed_config.uri)
       items = feed.entries.select { |item| item.published > last_read }
       last_read = items.collect { |item| item.published }.max unless items.empty?
       items.each do |item|
