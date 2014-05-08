@@ -9,16 +9,15 @@ module RRImm
         @sender = hash[:from]
       end
 
-      def default_author(feed_config)
-        if feed_config.default_name?
-          "RRImm <#{@sender}>"
+      def guess_author(feed_config, item_author)
+        name = "RRImm"
+        name = feed_config.name unless feed_config.default_name?
+        name = item.author if item_author
+        if name.include? '@'
+          name
         else
-          "#{feed_config.name} <#{@sender}>"
+          "#{name} <#{@sender}>"
         end
-      end
-
-      def from(authors)
-        authors.compact.select { |a| a.include? '@' }.first
       end
 
       def subject(feed, item, feed_config)
@@ -28,7 +27,7 @@ module RRImm
       end
 
       def format(feed, item, feed_config, pipe)
-        pipe.write "From: #{from [item.author, default_author(feed_config)]}\n"
+        pipe.write "From: #{guess_author(feed_config, item.author)}\n"
         pipe.write "To: #{dest}\n"
         pipe.write "Date: #{item.published.rfc2822}\n"
         pipe.write "Subject: #{subject(feed, item, feed_config)}\n"
