@@ -12,7 +12,7 @@ module RRImm
       def guess_author(feed_config, item_author)
         name = "RRImm"
         name = feed_config.name unless feed_config.default_name?
-        name = item.author if item_author
+        name = item_author if item_author
         if name.include? '@'
           name
         else
