@@ -37,12 +37,14 @@ module RRImm
       last_read = Time.at(@config.get_cache.read(feed_config))
       puts name unless @quiet
       feed = Feedjira::Feed.fetch_and_parse(feed_config.uri)
-      items = feed.entries.select { |item| item.published > last_read }
-      last_read = items.collect { |item| item.published }.max unless items.empty?
-      items.each do |item|
-        feed_config.format(feed, item)
+      if feed.respond_to? :entries
+        items = feed.entries.select { |item| item.published > last_read }
+        last_read = items.collect { |item| item.published }.max unless items.empty?
+        items.each do |item|
+          feed_config.format(feed, item)
+        end
+        @config.get_cache.save(feed_config, last_read.to_i, false)
       end
-      @config.get_cache.save(feed_config, last_read.to_i, false)
     end
   end
 end
