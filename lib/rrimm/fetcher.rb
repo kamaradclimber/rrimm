@@ -2,6 +2,7 @@ require 'feedjira'
 require 'open-uri'
 require 'open_uri_redirections'
 require 'parallel'
+require 'timeout'
 
 module RRImm
   class Fetcher
@@ -35,6 +36,16 @@ module RRImm
     end
 
     def fetch_feed(name, feed_config)
+      begin
+        Timeout::timeout(30) do
+          fetch_feed_no_timeout(name, feed_config)
+        end
+      rescue Timeout::Error
+        puts "#{name} timeout after 30 seconds"
+      end
+    end
+
+    def fetch_feed_no_timeout(name, feed_config)
       last_read = Time.at(@config.get_cache.read(feed_config))
       print name unless @quiet
       feed = Feedjira::Feed.fetch_and_parse(feed_config.uri)
