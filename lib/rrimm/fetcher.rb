@@ -22,7 +22,8 @@ module RRImm
     end
 
     def parallel_fetch(concurrency)
-      Parallel.map(@config.feeds, :in_threads => concurrency) do |name,feed_config|
+      Parallel.map(@config.feeds, :in_threads => concurrency, :progress => "fetching") do |name,feed_config|
+        @quiet = true
         fetch_feed(name, feed_config)
       end
     end
@@ -35,7 +36,7 @@ module RRImm
 
     def fetch_feed(name, feed_config)
       last_read = Time.at(@config.get_cache.read(feed_config))
-      puts name unless @quiet
+      print name unless @quiet
       feed = Feedjira::Feed.fetch_and_parse(feed_config.uri)
       if feed.respond_to? :entries
         items = feed.entries.select { |item| item.published > last_read }
@@ -45,6 +46,7 @@ module RRImm
         end
         @config.get_cache.save(feed_config, last_read.to_i, false)
       end
+      puts " (#{items.size rescue nil})" unless @quiet
     end
   end
 end
