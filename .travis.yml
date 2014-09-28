@@ -14,3 +14,6 @@ deploy:
   on:
     tags: true
     repo: kamaradclimber/rrimm
+env:
+  global:
+    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
