@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'rrimm'
-  s.version     = '0.7.2'
+  s.version     = '0.8.0'
   s.licenses    = ['Apache Licence v2']
   s.summary     = "RSS to email tool"
   s.description = "imm reboot in ruby. Retrieve rss feeds and send them by email"

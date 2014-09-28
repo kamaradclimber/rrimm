@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rrimm (0.7.2)
+    rrimm (0.8.0)
       colorize
       feedjira
       open_uri_redirections
