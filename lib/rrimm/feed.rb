@@ -1,3 +1,6 @@
+require 'mixlib/shellout'
+require 'stringio'
+
 module RRImm
   class Feed
  
@@ -16,12 +19,13 @@ module RRImm
 
     def format(feed, item)
       @formatter ||= @formatter_class.new
-      cmd = %Q<#{pipe}>
-      IO.popen(cmd,'w+') do |pipe|
-        @formatter.format(feed, item, self, pipe)
-        pipe.close_write
-        pipe.read.split("\n").each { |l| puts l }
+      s = StringIO.open do |pipe|
+        @formatter.format(feed,item, self, pipe)
       end
+      cmd = Mixlib::ShellOut.new(pipe, :input => s)
+      cmd.run_command
+      puts cmd.stdout
+      cmd.error!
     end
 
     def category(arg=nil)
