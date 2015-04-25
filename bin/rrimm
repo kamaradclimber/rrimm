@@ -30,6 +30,11 @@ OptionParser.new do |opts|
     options['quiet'] = true
   end
 
+  opts.on('--category CATEGORY',
+          'Run action only on one category"') do |cat|
+    options['category'] = cat
+  end
+
   opts.on('-a', '--action [action]', [:sync, :show, :status],
           'Specify what to do: "sync" feeds, "show" config, display feed "status"') do |action|
     options['action'] = action
@@ -50,14 +55,14 @@ fetcher = RRImm::Fetcher.new(conf)
 IO.open STDOUT.fileno do |ios|
   case options['action']
   when :sync
-    fetcher.fetch(options['concurrency'], options['quiet'])
+    fetcher.fetch(options['concurrency'], options['quiet'], options['category'])
   when :show
-    conf.show(ios)
+    conf.show(ios, options['category'])
   when :status
     one_month = 30 * 86400
     one_month_ago = Time.now.to_i - one_month
     six_months_ago = Time.now.to_i - 6 * one_month
 
-    conf.status(ios, one_month_ago, six_months_ago, false)
+    conf.status(ios, one_month_ago, six_months_ago, false, options['category'])
   end
 end
