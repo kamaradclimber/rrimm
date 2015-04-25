@@ -25,7 +25,7 @@ module RRImm
       end
       cmd = Mixlib::ShellOut.new(pipe, :input => s)
       cmd.run_command
-      puts cmd.stderr
+      puts cmd.stderr if cmd.error?
       cmd.error!
     end
 
