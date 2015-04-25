@@ -12,13 +12,13 @@ describe RRImm::ItemFormatter::Mail do
     expect(feed.entries.size).to be > 0
     s = StringIO.new
     config = double('config')
-    config.should_receive(:category).twice.and_return nil
-    config.should_receive(:default_name?).and_return(true, false)
+    expect(config).to receive(:category).twice.and_return nil
+    expect(config).to receive(:default_name?).and_return(true, false)
     mail_formatter.format(feed, feed.entries.first, config, s)
     expect(s.string).to eq "From: RRImm <from@example.com>\nTo: to@example.com\nDate: Fri, 07 Mar 2014 05:00:00 -0000\nSubject: When You Assume\nContent-Type: text/html;\n\nhttp://xkcd.com/1339/\n\n<img src=\"http://imgs.xkcd.com/comics/when_you_assume.png\" title=\"You know what happens when you assert--you make an ass out of the emergency response team.\" alt=\"You know what happens when you assert--you make an ass out of the emergency response team.\" />\n"
     s = StringIO.new
 
-    config.should_receive(:name).and_return "Randall Munroe"
+    expect(config).to receive(:name).and_return "Randall Munroe"
     mail_formatter.format(feed, feed.entries.first, config, s)
   end
 end
