@@ -53,7 +53,8 @@ module RRImm
     def fetch_feed_no_timeout(name, feed_config)
       last_read = Time.at(@config.get_cache.read(feed_config))
       print name unless @quiet
-      feed = Feedjira::Feed.fetch_and_parse(feed_config.uri)
+      options = { compress: true }
+      feed = Feedjira::Feed.fetch_and_parse(feed_config.uri, options)
       if feed.respond_to? :entries
         items = feed.entries.select { |item| item.published > last_read }
         last_read = items.collect { |item| item.published }.max unless items.empty?
