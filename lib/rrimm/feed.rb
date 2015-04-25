@@ -19,12 +19,13 @@ module RRImm
 
     def format(feed, item)
       @formatter ||= @formatter_class.new
-      s = StringIO.open do |pipe|
-        @formatter.format(feed,item, self, pipe)
+      s = ""
+      StringIO.open(s) do |str|
+        @formatter.format(feed,item, self, str)
       end
       cmd = Mixlib::ShellOut.new(pipe, :input => s)
       cmd.run_command
-      puts cmd.stdout
+      puts cmd.stderr
       cmd.error!
     end
 
