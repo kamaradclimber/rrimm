@@ -13,6 +13,7 @@ module RRImm
         name = "RRImm"
         name = feed_config.name unless feed_config.default_name?
         name = item_author if item_author
+        name = name.gsub(/,/, ' ') # clean from field
         if name.include? '@'
           name
         else
