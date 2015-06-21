@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'open_uri_redirections'
   s.add_dependency 'parallel'
   s.add_dependency 'ruby-progressbar'
-  s.add_dependency 'feedjira'
+  s.add_dependency 'feedjira', '< 2'
   s.add_dependency 'colorize'
   s.add_dependency 'mixlib-shellout'
 
