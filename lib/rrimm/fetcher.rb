@@ -58,7 +58,7 @@ module RRImm
       if feed.respond_to? :entries
         items = feed.entries.select { |item| item.published > last_read }
         last_read = items.collect { |item| item.published }.max unless items.empty?
-        items.each do |item|
+        feed_config.massage(items).each do |item|
           feed_config.format(feed, item)
         end
         @config.get_cache.save(feed_config, last_read.to_i, false)

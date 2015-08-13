@@ -9,12 +9,30 @@ module RRImm
     attr_accessor :formatter_class, :formatter
     attr_accessor :category
     attr_accessor :pipe
+    attr_accessor :massages
 
     def initialize(name, &block)
       @name = name
       @uri = name
       @formatter_class = RRImm::ItemFormatter::Default
+      @massages = []
       self.instance_eval(&block) if block
+    end
+
+    # may apply modifications on feeds
+    # must return an enumerable of feeditems
+    # massage method applies @massages keys as methods on "feed"
+    # it also uses the value as a block if a block is given
+    def massage(feed)
+      @massages.inject(feed) do |mem, method_with_arg|
+        arg = method_with_arg.values.first
+        method = method_with_arg.keys.first
+        if arg
+          mem.send(method, &arg)
+        else
+          mem.send(method)
+        end
+      end
     end
 
     def format(feed, item)

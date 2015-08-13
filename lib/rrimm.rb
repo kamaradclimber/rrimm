@@ -1,4 +1,5 @@
 require_relative 'rrimm/feed_config'
+require_relative 'rrimm/feed_config_extensions'
 require_relative 'rrimm/config'
 require_relative 'rrimm/fetcher'
 require_relative 'rrimm/item_formatter'
