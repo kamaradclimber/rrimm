@@ -37,9 +37,9 @@ describe RRImm::Config do
       ios = StringIO.new
       allow(RRImm::Cache).to receive(:new).and_return(cache)
       conf = RRImm::Config.new
-      conf.feeds['1_very_old'] = RRImm::Feed.new 'very_old'
-      conf.feeds['3_old'] = RRImm::Feed.new 'old'
-      conf.feeds['7_recent'] = RRImm::Feed.new 'recent'
+      conf.feeds['1_very_old'] = RRImm::FeedConfig.new 'very_old'
+      conf.feeds['3_old'] = RRImm::FeedConfig.new 'old'
+      conf.feeds['7_recent'] = RRImm::FeedConfig.new 'recent'
       expect{ conf.status(ios, 5, 3, false) }.not_to raise_error
       expect(ios.string).to include "#{Time.at(1)} very_old\n".red
       expect(ios.string).to include "#{Time.at(4)} old\n".yellow

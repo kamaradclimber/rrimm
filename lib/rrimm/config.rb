@@ -62,7 +62,7 @@ module RRImm
     def evaluate_feed_definition(feed_name, &block)
       #this allow to redefine feeds if necessary
       existing_feed = @feeds[feed_name]
-      new_feed = (existing_feed || Feed.new(feed_name))
+      new_feed = (existing_feed || FeedConfig.new(feed_name))
       new_feed.formatter = default_formatter if default_formatter
       new_feed.pipe = pipe if pipe
       new_feed.instance_eval(&block) if block
@@ -89,7 +89,7 @@ module RRImm
     end
 
     def category(cat_name, &block)
-      Feed.module_eval do
+      FeedConfig.module_eval do
         @@tmp_cat_name = cat_name
         alias :old_initialize :initialize
         def initialize(feed_name)
@@ -99,7 +99,7 @@ module RRImm
       end
       self.instance_eval(&block) if block
     ensure
-      Feed.module_eval do
+      FeedConfig.module_eval do
         alias :initialize :old_initialize
       end
     end

@@ -1,16 +1,16 @@
 require_relative 'spec_helper'
 
-describe RRImm::Feed do
+describe RRImm::FeedConfig do
   describe "#new" do
     it 'uses the name as uri by default' do
-      f = RRImm::Feed.new 'a random feed'
+      f = RRImm::FeedConfig.new 'a random feed'
       expect(f.name).to eq('a random feed')
       expect(f.uri).to eq('a random feed')
       expect(f.default_name?).to be true
     end
 
     it 'calls the block if one is specifed' do
-      f = RRImm::Feed.new 'a another feed' do
+      f = RRImm::FeedConfig.new 'a another feed' do
         pipe "cat | cat"
         formatter_class RRImm::ItemFormatter::Mail
       end
@@ -22,7 +22,7 @@ describe RRImm::Feed do
   describe ".format" do
     it 'calls formatter' do
       formatter = double('formatter')
-      f = RRImm::Feed.new 'a random feed'
+      f = RRImm::FeedConfig.new 'a random feed'
       f.pipe "cat /dev/null"
       f.formatter = formatter
       expect(formatter).to receive(:format)

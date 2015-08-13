@@ -2,7 +2,7 @@ require 'mixlib/shellout'
 require 'stringio'
 
 module RRImm
-  class Feed
+  class FeedConfig
  
     attr_accessor :name
     attr_accessor :uri

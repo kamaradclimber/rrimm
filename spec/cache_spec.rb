@@ -10,7 +10,7 @@ describe RRImm::Cache do
   end
 
   it 'reads default timestamp if cache is not present' do
-    feed = RRImm::Feed.new 'http://kernel.org/rss'
+    feed = RRImm::FeedConfig.new 'http://kernel.org/rss'
     Dir.mktmpdir do |dir|
       cache = RRImm::Cache.new dir
       expect(cache.read(feed)).to eq RRImm::Cache::DEFAULT_TIMESTAMP
@@ -18,7 +18,7 @@ describe RRImm::Cache do
   end
 
   it 'reads the correct timestamp' do
-    feed = RRImm::Feed.new 'http://kernel.org/rss'
+    feed = RRImm::FeedConfig.new 'http://kernel.org/rss'
     now = Time.now.to_i
     Dir.mktmpdir do |dir|
       cache = RRImm::Cache.new dir

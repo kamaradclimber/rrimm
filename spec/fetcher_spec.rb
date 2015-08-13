@@ -3,7 +3,7 @@ require_relative 'spec_helper'
 describe RRImm::Fetcher do
   let(:basic_conf) do
     xkcd_file = File.join('file://', File.dirname(__FILE__), 'xkcd.xml')
-    feed = RRImm::Feed.new xkcd_file do
+    feed = RRImm::FeedConfig.new xkcd_file do
       pipe 'cat > /dev/null'
     end
     cache = double('cache_mock')
