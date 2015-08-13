@@ -4,8 +4,12 @@ require 'stringio'
 module RRImm
   module FeedConfigExtensions
 
-    def select(&block)
-      @massages << { select: block}
+    def method_missing(name, *args, &block)
+      if Enumerable.instance_methods(false).include? name
+        @massages << { name => block }
+      else
+        raise NoMethodError
+      end
     end
 
   end
