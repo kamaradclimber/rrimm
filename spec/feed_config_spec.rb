@@ -44,3 +44,14 @@ describe RRImm::FeedConfig do
     end
   end
 end
+
+describe RRImm::FeedConfigExtensions do
+  describe 'select' do
+    it 'applies select on feed' do
+      feed = (1..5)
+      f = RRImm::FeedConfig.new 'a random feed'
+      f.select { |el| el % 2 == 0 }
+      expect(f.massage(feed)).to eq([2,4])
+    end
+  end
+end
