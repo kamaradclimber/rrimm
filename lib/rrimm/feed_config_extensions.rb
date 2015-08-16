@@ -10,6 +10,7 @@ module RRImm
       else
         raise NoMethodError
       end
+      self
     end
 
   end

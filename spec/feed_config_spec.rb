@@ -31,6 +31,13 @@ describe RRImm::FeedConfig do
       f.massages << {select: Proc.new { |el| el % 2 == 0 }}
       expect(f.massage(feed)).to eq([2,4])
     end
+    it 'applies 2 massages in a row' do
+      feed = (1..10)
+      f = RRImm::FeedConfig.new 'a random feed'
+      f.massages << {select: Proc.new { |el| el % 2 == 0 }}
+      f.massages << {select: Proc.new { |el| el % 4 == 0 }}
+      expect(f.massage(feed)).to eq([4,8])
+    end
   end
 
   describe ".format" do
@@ -52,6 +59,11 @@ describe RRImm::FeedConfigExtensions do
       f = RRImm::FeedConfig.new 'a random feed'
       f.select { |el| el % 2 == 0 }
       expect(f.massage(feed)).to eq([2,4])
+    end
+    it 'returns the feed config to allow chaining' do
+      feed = (1..5)
+      f = RRImm::FeedConfig.new 'a random feed'
+      expect(f.select { |el| el % 2 == 0 }).to be_a(RRImm::FeedConfig)
     end
   end
 end
