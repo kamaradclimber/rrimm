@@ -35,8 +35,8 @@ OptionParser.new do |opts|
     options['category'] = cat
   end
 
-  opts.on('-a', '--action [action]', [:sync, :show, :status],
-          'Specify what to do: "sync" feeds, "show" config, display feed "status"') do |action|
+  opts.on('-a', '--action [action]', [:sync, :show, :status, :reset],
+          'Specify what to do: "sync" feeds, "show" config, display feed "status, reset feed cache"') do |action|
     options['action'] = action
   end
 
@@ -64,5 +64,9 @@ IO.open STDOUT.fileno do |ios|
     six_months_ago = Time.now.to_i - 6 * one_month
 
     conf.status(ios, one_month_ago, six_months_ago, false, options['category'])
+  when :reset
+    time = ARGV.shift.to_i
+    puts "Will reset cache files more recent than #{Time.at(time)} to this date."
+    conf.reset_caches(time)
   end
 end

@@ -41,6 +41,15 @@ module RRImm
       end
     end
 
+    def reset_caches(timestamp)
+      @feeds.each do |name, f|
+        if get_cache.read(f) > timestamp
+          get_cache.save(f, timestamp)
+          puts "Reset #{name}"
+        end
+      end
+    end
+
     def status(ios, old_timestamp, very_old_timestamp, display_old_only, category=nil)
       @feeds.values.
         select { |f| category.nil? || f.category == category }.
