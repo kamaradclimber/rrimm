@@ -33,6 +33,7 @@ module RRImm
         pipe.write "Date: #{item.published.rfc2822}\n"
         pipe.write "Subject: #{subject(feed, item, feed_config)}\n"
         pipe.write "Content-Type: text/html;\n"
+        pipe.write "X-Source-Uri: #{feed_config.uri}\n"
         pipe.write "\n"
         pipe.write item.url
         pipe.write "\n\n"
