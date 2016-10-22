@@ -7,24 +7,25 @@ require 'timeout'
 module RRImm
   class Fetcher
 
-    attr_accessor :config
+    attr_accessor :config, :options
 
-    def initialize(config)
-      @config = config
+    def initialize(config, options)
+      @config  = config
+      @options = options
+      @quiet = options['quiet']
+      @category = options['category']
     end
 
-    def fetch(concurrency=nil, quiet=false, category=nil)
-      @quiet ||= quiet
-      @category ||= category
-      if concurrency
-        parallel_fetch(concurrency)
+    def fetch()
+      if options['concurrency']
+        parallel_fetch
       else
         linear_fetch
       end
     end
 
-    def parallel_fetch(concurrency)
-      Parallel.map(feeds, :in_threads => concurrency, :progress => "fetching") do |name,feed_config|
+    def parallel_fetch
+      Parallel.map(feeds, :in_threads => options['concurrency'], :progress => "fetching") do |name,feed_config|
         @quiet = true
         fetch_feed(name, feed_config)
       end
@@ -40,6 +41,10 @@ module RRImm
       @config.feeds.select { |f,conf| @category.nil? || conf.category == @category }
     end
 
+    def debug(message)
+      puts message if options['verbose']
+    end
+
     def fetch_feed(name, feed_config)
       begin
         Timeout::timeout(30) do
@@ -51,16 +56,21 @@ module RRImm
     end
 
     def fetch_feed_no_timeout(name, feed_config)
+      debug "-> #{name}: reading cache"
       last_read = Time.at(@config.get_cache.read(feed_config))
       print name unless @quiet
       options = { compress: true }
+      debug "-> #{name}: fetching and parsing"
       feed = Feedjira::Feed.fetch_and_parse(feed_config.uri, options)
+      debug "-> #{name}: fetched and parsed"
       if feed.respond_to? :entries
         items = feed.entries.select { |item| item.published > last_read }
         last_read = items.collect { |item| item.published }.max unless items.empty?
         feed_config.massage(items).each do |item|
+          debug "-> #{name}: format an item"
           feed_config.format(feed, item)
         end
+        debug "-> #{name}: saving cache"
         @config.get_cache.save(feed_config, last_read.to_i, false)
       end
       puts " (#{items.size rescue nil})" unless @quiet

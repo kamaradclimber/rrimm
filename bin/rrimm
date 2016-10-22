@@ -30,6 +30,11 @@ OptionParser.new do |opts|
     options['quiet'] = true
   end
 
+  opts.on('-V', '--verbose',
+          'Verbose mode') do
+    options['verbose'] = true
+  end
+
   opts.on('--category CATEGORY',
           'Run action only on one category"') do |cat|
     options['category'] = cat
@@ -51,11 +56,11 @@ end.parse!(ARGV)
 conf = RRImm::Config.new
 conf.load(options['conf_file'])
 
-fetcher = RRImm::Fetcher.new(conf)
+fetcher = RRImm::Fetcher.new(conf, options)
 IO.open STDOUT.fileno do |ios|
   case options['action']
   when :sync
-    fetcher.fetch(options['concurrency'], options['quiet'], options['category'])
+    fetcher.fetch
   when :show
     conf.show(ios, options['category'])
   when :status
