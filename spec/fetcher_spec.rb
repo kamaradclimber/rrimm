@@ -20,18 +20,18 @@ describe RRImm::Fetcher do
 
   describe '#initialize' do
     it 'createscorrectly' do
-      expect { RRImm::Fetcher.new basic_conf }.not_to raise_error
+      expect { RRImm::Fetcher.new(basic_conf, {}) }.not_to raise_error
     end
   end
 
   describe '#fetch' do
     it 'fetches correctly' do
-      fetcher = RRImm::Fetcher.new basic_conf
+      fetcher = RRImm::Fetcher.new basic_conf, {}
       expect { fetcher.fetch }.not_to raise_error
     end
     it 'fetches correctly when using concurrency' do
-      fetcher = RRImm::Fetcher.new basic_conf
-      expect { fetcher.fetch(5) }.not_to raise_error
+      fetcher = RRImm::Fetcher.new basic_conf, {'concurrency' => 5}
+      expect { fetcher.fetch }.not_to raise_error
     end
   end
 end

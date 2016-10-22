@@ -59,10 +59,9 @@ module RRImm
       debug "-> #{name}: reading cache"
       last_read = Time.at(@config.get_cache.read(feed_config))
       print name unless @quiet
-      options = { compress: true }
       debug "-> #{name}: fetching and parsing"
-      feed = Feedjira::Feed.fetch_and_parse(feed_config.uri, options)
-      debug "-> #{name}: fetched and parsed"
+      feed = Feedjira::Feed.fetch_and_parse(feed_config.uri)
+      debug "-> #{name}: fetched and parsed (#{feed.class})"
       if feed.respond_to? :entries
         items = feed.entries.select { |item| item.published > last_read }
         last_read = items.collect { |item| item.published }.max unless items.empty?
