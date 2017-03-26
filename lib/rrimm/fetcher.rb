@@ -48,7 +48,12 @@ module RRImm
     def fetch_feed(name, feed_config)
       begin
         Timeout::timeout(30) do
-          fetch_feed_no_timeout(name, feed_config)
+          begin
+            fetch_feed_no_timeout(name, feed_config)
+          rescue => e
+            puts "Received #{e.class.name} #{e.message} for #{name}"
+            raise
+          end
         end
       rescue Timeout::Error
         puts "#{name} timeout after 30 seconds"
