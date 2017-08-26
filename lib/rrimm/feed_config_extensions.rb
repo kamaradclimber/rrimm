@@ -8,7 +8,7 @@ module RRImm
       if Enumerable.instance_methods(false).include? name
         @massages << { name => block }
       else
-        raise NoMethodError
+        raise NoMethodError, "#{name} does not exist"
       end
       self
     end

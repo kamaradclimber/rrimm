@@ -2,8 +2,12 @@ require_relative 'spec_helper'
 
 describe RRImm::Fetcher do
   let(:basic_conf) do
-    xkcd_file = File.join('file://', File.dirname(__FILE__), 'xkcd.xml')
-    feed = RRImm::FeedConfig.new xkcd_file do
+    xkcd_file = File.join(File.dirname(__FILE__), 'xkcd.xml')
+    xkcd_uri = 'http://toto.com/xkcd.xml'
+
+    stub_request(:get, xkcd_uri).
+      to_return(status: 200, body: File.read(xkcd_file))
+    feed = RRImm::FeedConfig.new xkcd_uri do
       pipe 'cat > /dev/null'
     end
     cache = double('cache_mock')
