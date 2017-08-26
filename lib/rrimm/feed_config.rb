@@ -8,7 +8,7 @@ module RRImm
     attr_accessor :uri
     attr_accessor :formatter_class, :formatter
     attr_accessor :category
-    attr_accessor :pipe
+    attr_accessor :publisher
     attr_accessor :massages
 
     def initialize(name, &block)
@@ -41,10 +41,7 @@ module RRImm
       StringIO.open(s) do |str|
         @formatter.format(feed,item, self, str)
       end
-      cmd = Mixlib::ShellOut.new(pipe, :input => s)
-      cmd.run_command
-      puts cmd.stderr if cmd.error?
-      cmd.error!
+      publisher.publish(s)
     end
 
     def category(arg=nil)
@@ -72,11 +69,19 @@ module RRImm
       @formatter_class
     end
 
+    def publisher(arg=nil)
+      if arg
+        @publisher = arg
+      end
+      @publisher
+    end
+
+    # compat with old pipe
     def pipe(arg=nil)
       if arg
-        @pipe = arg
+        publisher RRImm::Pipe.new(arg)
       end
-      @pipe
+      publisher.command
     end
 
   end

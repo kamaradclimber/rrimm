@@ -1,3 +1,4 @@
+require_relative 'rrimm/publisher'
 require_relative 'rrimm/feed_config'
 require_relative 'rrimm/feed_config_extensions'
 require_relative 'rrimm/config'

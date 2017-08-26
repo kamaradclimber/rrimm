@@ -3,7 +3,7 @@ require 'colorize'
 module RRImm
   class Config
     attr :feeds, :cache
-    attr :default_formatter, :pipe
+    attr :default_formatter, :publisher
     attr_accessor :output
 
     def initialize
@@ -11,7 +11,7 @@ module RRImm
       cache "default cache" do
         path File.join(ENV['HOME'], '.cache', 'rrimm')
       end
-      @pipe = "cat"
+      @publisher = RRImm::Pipe.new('cat')
     end
 
     def feeds
@@ -73,7 +73,7 @@ module RRImm
       existing_feed = @feeds[feed_name]
       new_feed = (existing_feed || FeedConfig.new(feed_name))
       new_feed.formatter = default_formatter if default_formatter
-      new_feed.pipe = pipe if pipe
+      new_feed.publisher= publisher if publisher
       new_feed.instance_eval(&block) if block
       new_feed
     end
@@ -85,11 +85,19 @@ module RRImm
       @default_formatter
     end
 
+    def publisher(arg=nil)
+      if arg
+        @publisher = arg
+      end
+      @publisher
+    end
+
+    # compatibility with "pipe" method
     def pipe(arg=nil)
       if arg
-        @pipe = arg
+        publisher(RRImm::Pipe.new(arg))
       end
-      @pipe
+      publisher.command
     end
 
     def feed(name, *args, &block)
