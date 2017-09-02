@@ -42,6 +42,7 @@ module RRImm
     end
 
     def save(feed, timestamp, force=true)
+      ensure_cache_dir!
       file_path = cache_file(feed)
       File.write(file_path, timestamp) if (force or timestamp != read(feed))
     end
@@ -54,6 +55,10 @@ module RRImm
       REMOVE_PATTERNS.inject(cleaned_name) do |memo,pattern|
         memo.gsub(pattern, '')
       end
+    end
+
+    def ensure_cache_dir!
+      @cache_dir_exists ||= Dir.exists?(path) || Dir.mkdir(path)
     end
   end
 end

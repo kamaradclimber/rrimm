@@ -37,11 +37,11 @@ module RRImm
 
     def format(feed, item)
       @formatter ||= @formatter_class.new
-      s = ""
-      StringIO.open(s) do |str|
+      formatted_feed = ""
+      StringIO.open(formatted_feed) do |str|
         @formatter.format(feed,item, self, str)
       end
-      publisher.publish(s)
+      publisher.publish(formatted_feed, feed, item)
     end
 
     def category(arg=nil)

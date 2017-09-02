@@ -7,7 +7,7 @@ module RRImm
 
     attr_reader :command
 
-    def publish(input)
+    def publish(input, *args)
       cmd = Mixlib::ShellOut.new(command, input: input)
       cmd.run_command
       puts cmd.stderr if cmd.error?
