@@ -72,6 +72,15 @@ module RRImm
         wiki_edit_karma: 100,
         wikimode: 'disabled'
         )
+    rescue Redd::APIError => e
+      if e.message =~ /doing that too much.*again in (.*) minutes/
+        delay  = $1.to_i + 1
+        puts "API limit for subreddit creation reached, wait #{delay} minutes"
+        sleep(delay * 60)
+        retry
+      else
+        raise
+      end
     end
 
     def sr(name)
