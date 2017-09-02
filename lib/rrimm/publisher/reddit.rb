@@ -24,6 +24,12 @@ module RRImm
       subreddits[feed.title] = subreddit
       puts "Will submit #{item.title} (from #{feed.title}) to #{subreddit.display_name}"
       subreddit.submit(item.title, url: item.url)
+    rescue  Redd::APIError => e
+      if e.message =~ /that link has already been submitted/
+        puts "#{item.title} had already been posted. Is the local cache working?"
+      else
+        raise
+      end
     end
 
 
