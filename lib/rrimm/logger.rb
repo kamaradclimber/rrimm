@@ -10,7 +10,7 @@ module RRImm
     end
 
     def format_log(message)
-      "#{Time.now.strftime('%T')} message"
+      "#{Time.now.strftime('%T')} #{message}"
     end
   end
 end
