@@ -3,9 +3,12 @@ require 'open-uri'
 require 'open_uri_redirections'
 require 'parallel'
 require 'timeout'
+require_relative '../logger'
 
 module RRImm
   class Fetcher
+
+    include Logger
 
     attr_accessor :config, :options
 

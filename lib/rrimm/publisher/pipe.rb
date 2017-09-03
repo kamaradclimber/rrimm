@@ -1,5 +1,10 @@
+require_relative '../logger'
+
 module RRImm
   class Pipe < Publisher
+
+    include Logger
+
     def initialize(command)
       super()
       @command = command
@@ -10,7 +15,7 @@ module RRImm
     def publish(input, *args)
       cmd = Mixlib::ShellOut.new(command, input: input)
       cmd.run_command
-      puts cmd.stderr if cmd.error?
+      info cmd.stderr if cmd.error?
       cmd.error!
     end
   end

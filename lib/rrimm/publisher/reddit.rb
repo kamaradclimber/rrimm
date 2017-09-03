@@ -1,5 +1,10 @@
+require_relative '../logger'
+
 module RRImm
   class Reddit < Publisher
+
+    include Logger
+
     def initialize
       require 'redd' # avoid requirment if necessary HACK
 
@@ -22,11 +27,11 @@ module RRImm
     def publish(input, feed, item)
       subreddit = subreddits[feed.title] || check_subreddit!(feed)
       subreddits[feed.title] = subreddit
-      puts "Will submit #{item.title} (from #{feed.title}) to #{subreddit.display_name}"
+      info "Will submit #{item.title} (from #{feed.title}) to #{subreddit.display_name}"
       subreddit.submit(item.title, url: item.url)
     rescue  Redd::APIError => e
       if e.message =~ /that link has already been submitted/
-        puts "#{item.title} had already been posted. Is the local cache working?"
+        info "#{item.title} had already been posted. Is the local cache working?"
       else
         raise
       end
@@ -43,7 +48,7 @@ module RRImm
     end
 
     def create_subreddit!(feed)
-      puts "Will create subreddit named #{feed2sr(feed)}"
+      info "Will create subreddit named #{feed2sr(feed)}"
       sr(feed2sr(feed)).create(
         allow_discovery: true,
         allow_images: true,
@@ -81,7 +86,7 @@ module RRImm
     rescue Redd::APIError => e
       if e.message =~ /doing that too much.*again in (.*) minutes/
         delay  = $1.to_i + 1
-        puts "API limit for subreddit creation reached, wait #{delay} minutes"
+        info "API limit for subreddit creation reached, wait #{delay} minutes"
         sleep(delay * 60)
         retry
       else
