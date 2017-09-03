@@ -28,7 +28,8 @@ module RRImm
       subreddit = subreddits[feed.title] || check_subreddit!(feed)
       subreddits[feed.title] = subreddit
       info "Will submit #{item.title} (from #{feed.title}) to #{subreddit.display_name}"
-      subreddit.submit(item.title, url: item.url)
+      submission = subreddit.submit(item.title, url: item.url)
+      submission.undo_vote # let user decide whether content worth it
     rescue  Redd::APIError => e
       if e.message =~ /that link has already been submitted/
         info "#{item.title} had already been posted. Is the local cache working?"
