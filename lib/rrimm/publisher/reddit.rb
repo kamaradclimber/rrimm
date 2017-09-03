@@ -16,7 +16,7 @@ module RRImm
     attr_reader :subreddits
 
     def feed2sr(feed)
-      "rss_#{feed.title.gsub(/[\. ]+/, '')}"[0..20]
+      "rss_#{feed.title.gsub(/[\W]+/, '')}"[0..20]
     end
 
     def publish(input, feed, item)
